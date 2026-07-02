@@ -7,3 +7,4 @@ curl -fsSL https://wyf027.github.io/install | bash
 ```
 
 The GitHub Pages source is `master` at the repository root.
+
