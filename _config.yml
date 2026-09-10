@@ -56,6 +56,11 @@ navs:
     title: 书签
 
   -
+    href: /resume/
+    label: Resume
+    title: GitHub 简历
+
+  -
     href: /about
     label: About
     title: 关于我
