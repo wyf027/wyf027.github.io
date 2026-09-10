@@ -1,0 +1,64 @@
+<div class="about row">
+
+    <div class="col-md-8">
+
+        <h2>About me/关于我</h2>
+
+        <p>Hi,everybody! I am WuYangfan and you can call me leno. I am a graduate of Henan Algricultural University. I'm a Front-end Developer. And now working in Huawei. Wish my dream would come ture！</p>
+        <p>Hi,同学们好！我叫吴杨帆，你们也可以叫我leno。毕业于河南农业大学。现在在华为做web前端开发。希望我的梦想可以实现！</p>
+        
+        <h2>Contact/联系方式</h2>
+
+        <ul>
+            <li>Email：<a href="mailto:{{ site.email }}" target="_top">{{ site.email }}</a></li>
+            <li>GitHub：<a href="{{ site.github_url }}">{{ site.github_url }}</a></li>
+        </ul>
+
+        <h2>Skill Keywords/技能树</h2>
+
+        {% if site.skill_web_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Web Developer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_web_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if site.skill_mobile_app_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Mobile Developer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_mobile_app_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if site.skill_software_keywords %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Software Engineer Keywords</h3>
+            </div>
+            <div class="panel-body">
+                {% for keyword in site.skill_software_keywords %}
+                <button class="btn btn-default" type="button">{{ keyword }}</button>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <div class="col-md-4">
+        {% include sidebar-about-image.html %}
+    </div>
+
+</div>
