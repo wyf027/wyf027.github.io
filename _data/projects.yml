@@ -24,15 +24,6 @@
   preview_url: https://wyf-classic-games.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-games
 
-- name: 科幻经典简中图册
-  description: 以简体中文图文卡片整理公版科幻经典作品。
-  tags:
-    - HTML
-    - JavaScript
-    - TailwindCSS
-  preview_url: https://wyf-classic-sci-fi-atlas.vercel.app/
-  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-sci-fi-atlas
-
 - name: 原生文档局部更新
   description: 演示浏览器原生文档流式更新与局部渲染能力。
   tags:
