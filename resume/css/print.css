@@ -125,3 +125,9 @@ a {
 
 /* Personal-site navigation is not part of the printed résumé. */
 nav, #load-status, body > p { display: none; }
+
+/* Print the supplied professional résumé, without live GitHub statistics. */
+#resume, #personal-resume button, noscript { display: none !important; }
+#personal-resume { max-width: none; margin: 0; padding: 0; border: 0; box-shadow: none; background: white; font-size: 10pt; }
+#personal-resume h2, #personal-resume h3 { break-after: avoid; }
+#personal-resume li { break-inside: avoid; }
