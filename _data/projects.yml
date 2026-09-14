@@ -1,0 +1,113 @@
+- name: WYF Screenshot Studio
+  description: 上传截图，使用自己的模型 Key 生成并预览前端代码。
+  tags:
+    - React
+    - TailwindCSS
+    - FastAPI
+  preview_url: https://screenshot-to-code-blue.vercel.app/
+  source_url: https://github.com/wyf027/screenshot-to-code
+
+- name: 经典完整图册
+  description: 集中浏览经典作品图册与主题索引。
+  tags:
+    - HTML
+    - TailwindCSS
+  preview_url: https://wyf-classic-atlas.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-atlas
+
+- name: Classic Games
+  description: 收录多种可直接游玩的经典浏览器小游戏。
+  tags:
+    - HTML
+    - JavaScript
+    - TailwindCSS
+  preview_url: https://wyf-classic-games.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-games
+
+- name: 科幻经典简中图册
+  description: 以简体中文图文卡片整理公版科幻经典作品。
+  tags:
+    - HTML
+    - JavaScript
+    - TailwindCSS
+  preview_url: https://wyf-classic-sci-fi-atlas.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-sci-fi-atlas
+
+- name: 原生文档局部更新
+  description: 演示浏览器原生文档流式更新与局部渲染能力。
+  tags:
+    - HTML
+    - Browser API
+  preview_url: https://wyf-declarative-partial-updates-dem.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/declarative-partial-updates-demo
+
+- name: 拖拽排序实验室
+  description: 对比原生拖放、FLIP 动画与 Sortable 排序方案。
+  tags:
+    - HTML
+    - JavaScript
+    - TailwindCSS
+  preview_url: https://wyf-drag-sort.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/drag-sort
+
+- name: 设计模式实验室
+  description: 通过浏览器示例理解设计原则、策略模式和状态模式。
+  tags:
+    - JavaScript
+    - Design Patterns
+    - TailwindCSS
+  preview_url: https://wyf-design-pattern.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/design-pattern
+
+- name: LeetCode 交互讲解
+  description: 用交互动画和分步说明理解算法题。
+  tags:
+    - Algorithms
+    - JavaScript
+    - TailwindCSS
+  preview_url: https://wyf-leetcode-interactive.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/leetcode-interactive
+
+- name: Nodepod Workspace
+  description: 在浏览器沙箱中编辑并运行虚拟 Node HTTP 服务。
+  tags:
+    - React
+    - Nodepod
+    - Vite
+  preview_url: https://wyf-nodepod-demo.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/nodepod-demo
+
+- name: Open File Viewer
+  description: 演示文件选择、识别与浏览器内预览流程。
+  tags:
+    - HTML
+    - File API
+    - TailwindCSS
+  preview_url: https://wyf-open-file-viewer-demo.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/open-file-viewer-demo
+
+- name: RAG 全流程演示
+  description: 可视化文档切分、检索、重排与答案生成过程。
+  tags:
+    - RAG
+    - JavaScript
+    - TailwindCSS
+  preview_url: https://wyf-rag-flow-demo.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/rag-flow-demo
+
+- name: React Demo
+  description: 用小型示例观察 React 状态更新与列表渲染。
+  tags:
+    - React
+    - JavaScript
+  preview_url: https://wyf-react-demo.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/react-demo
+
+- name: Screenshot Workflow Lite
+  description: 把截图复刻需求整理成工作流、提示词与 JSON。
+  tags:
+    - HTML
+    - Workflow
+    - TailwindCSS
+  preview_url: https://wyf-screenshot-workflow-lite.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/screenshot-workflow-lite
