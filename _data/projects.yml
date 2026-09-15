@@ -7,13 +7,14 @@
   preview_url: https://screenshot-to-code-blue.vercel.app/
   source_url: https://github.com/wyf027/screenshot-to-code
 
-- name: 经典完整图册
-  description: 集中浏览经典作品图册与主题索引。
+- name: 道德经 · 山水书册
+  description: 翻阅八十一章原文与山水插画，支持章目跳转、缩放和放大镜。
   tags:
     - HTML
     - TailwindCSS
-  preview_url: https://wyf-classic-atlas.vercel.app/
-  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-atlas
+    - 翻页书册
+  preview_url: https://wyf-daodejing-atlas.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/daodejing-atlas
 
 - name: Classic Games
   description: 收录多种可直接游玩的经典浏览器小游戏。
