@@ -1,3 +1,12 @@
+- name: le-e 终端刷题工作区
+  description: 在终端浏览题库、阅读题面、使用 Micro 编码并测试提交，附安装与登录指南。
+  tags:
+    - Vue
+    - TypeScript
+    - TUI
+  preview_url: https://wyf-le-e.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/le-e
+
 - name: AI 截图转前端代码
   description: 上传截图，使用自己的模型 Key 生成并预览前端代码。
   tags:
