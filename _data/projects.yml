@@ -1,4 +1,4 @@
-- name: WYF Screenshot Studio
+- name: AI 截图转前端代码
   description: 上传截图，使用自己的模型 Key 生成并预览前端代码。
   tags:
     - React
@@ -7,7 +7,7 @@
   preview_url: https://screenshot-to-code-blue.vercel.app/
   source_url: https://github.com/wyf027/screenshot-to-code
 
-- name: 道德经 · 山水书册
+- name: 道德经交互翻页书册
   description: 翻阅八十一章原文与山水插画，支持章目跳转、缩放和放大镜。
   tags:
     - HTML
@@ -16,7 +16,7 @@
   preview_url: https://wyf-daodejing-atlas.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/daodejing-atlas
 
-- name: Classic Games
+- name: JavaScript 浏览器小游戏合集
   description: 收录多种可直接游玩的经典浏览器小游戏。
   tags:
     - HTML
@@ -25,7 +25,7 @@
   preview_url: https://wyf-classic-games.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-games
 
-- name: 原生文档局部更新
+- name: HTML 原生文档流式更新
   description: 演示浏览器原生文档流式更新与局部渲染能力。
   tags:
     - HTML
@@ -33,7 +33,7 @@
   preview_url: https://wyf-declarative-partial-updates-dem.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/declarative-partial-updates-demo
 
-- name: 拖拽排序实验室
+- name: 拖拽排序与 FLIP 动画
   description: 对比原生拖放、FLIP 动画与 Sortable 排序方案。
   tags:
     - HTML
@@ -42,7 +42,7 @@
   preview_url: https://wyf-drag-sort.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/drag-sort
 
-- name: 设计模式实验室
+- name: JavaScript 设计模式实验室
   description: 通过浏览器示例理解设计原则、策略模式和状态模式。
   tags:
     - JavaScript
@@ -51,7 +51,7 @@
   preview_url: https://wyf-design-pattern.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/design-pattern
 
-- name: LeetCode 交互讲解
+- name: LeetCode 算法可视化推演
   description: 用交互动画和分步说明理解算法题。
   tags:
     - Algorithms
@@ -60,8 +60,8 @@
   preview_url: https://wyf-leetcode-interactive.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/leetcode-interactive
 
-- name: Nodepod Workspace
-  description: 在浏览器沙箱中编辑并运行虚拟 Node HTTP 服务。
+- name: 类 WebContainer 浏览器沙箱
+  description: 基于 Nodepod，支持虚拟文件系统、终端与 Node HTTP 服务预览。
   tags:
     - React
     - Nodepod
@@ -69,7 +69,7 @@
   preview_url: https://wyf-nodepod-demo.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/nodepod-demo
 
-- name: Open File Viewer
+- name: File API 文件识别与预览
   description: 演示文件选择、识别与浏览器内预览流程。
   tags:
     - HTML
@@ -78,7 +78,7 @@
   preview_url: https://wyf-open-file-viewer-demo.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/open-file-viewer-demo
 
-- name: RAG 全流程演示
+- name: RAG 全流程可视化
   description: 可视化文档切分、检索、重排与答案生成过程。
   tags:
     - RAG
@@ -87,7 +87,7 @@
   preview_url: https://wyf-rag-flow-demo.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/rag-flow-demo
 
-- name: React Demo
+- name: React 状态与列表渲染实验
   description: 用小型示例观察 React 状态更新与列表渲染。
   tags:
     - React
@@ -95,7 +95,7 @@
   preview_url: https://wyf-react-demo.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/react-demo
 
-- name: Screenshot Workflow Lite
+- name: 截图复刻提示词编排
   description: 把截图复刻需求整理成工作流、提示词与 JSON。
   tags:
     - HTML
@@ -104,7 +104,7 @@
   preview_url: https://wyf-screenshot-workflow-lite.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/screenshot-workflow-lite
 
-- name: 经典图册索引
+- name: 经典文献图册导航
   description: 汇集庄子、菜根谭等经典作品的图册阅读入口。
   tags:
     - HTML
@@ -112,7 +112,7 @@
   preview_url: https://wyf-classic-atlas.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-atlas
 
-- name: 公版科幻图册
+- name: 科幻图册静态阅读索引
   description: 浏览海底两万里、时间机器等公版科幻作品的简中图册索引。
   tags:
     - HTML
@@ -120,7 +120,7 @@
   preview_url: https://wyf-classic-sci-fi-atlas.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-sci-fi-atlas
 
-- name: 我的项目集合
+- name: Next.js 作品聚合导航
   description: 集中浏览个人项目及其在线演示入口。
   tags:
     - Next.js
@@ -128,7 +128,7 @@
   preview_url: https://wyf001.vercel.app/
   source_url: https://github.com/wyf027/project-list
 
-- name: 思维导图
+- name: Vue 思维导图编辑器
   description: 在线整理思路与节点，体验思维导图编辑界面。
   tags:
     - Vue
@@ -136,7 +136,7 @@
     - 思维导图
   preview_url: https://vite-vue3-kohl.vercel.app/
 
-- name: Web3 Connector
+- name: Web3 多钱包连接与账户交互
   description: 演示 Web3 钱包连接与账户交互界面。
   tags:
     - Web3
@@ -145,7 +145,7 @@
   preview_url: https://w-web3-connector.vercel.app/
   source_url: https://github.com/wyf027/w-wallet-sdk
 
-- name: 给你的情书
+- name: 互动情书展示
   description: 用网页呈现情书与恋爱故事。
   tags:
     - JavaScript
@@ -153,7 +153,7 @@
   preview_url: https://yf-love-story.vercel.app/
   source_url: https://github.com/wyf027/love-story
 
-- name: MetaNodeSwap
+- name: DEX 代币兑换与流动性交互
   description: 展示去中心化交易所的代币兑换与流动性管理界面。
   tags:
     - Next.js
@@ -162,7 +162,7 @@
   preview_url: https://w-swap-frontend.vercel.app/
   source_url: https://github.com/wyf027/w-swap-frontend
 
-- name: 低代码页面编辑器
+- name: LowCode 拖拽式页面搭建
   description: 通过拖拽布局和配置组件，体验可视化页面搭建。
   tags:
     - Vue

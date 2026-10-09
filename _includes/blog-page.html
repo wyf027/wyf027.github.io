@@ -1,38 +1,14 @@
 <div class="row">
-
     <div class="col-md-8">
-
-        <!-- Blog list -->
-        <ul id="posts-list">
+        <ul id="posts-list" class="archive-list tw-list-none tw-p-0">
             {% for post in site.posts %}
-            <li class="posts-list-item" data-title="{{post.title}}">
-                <div class="posts-content">
-                    <span class="posts-list-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
-                    <a class="posts-list-name bubble-float-left" href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
-                    <span class='circle'></span>
-                </div>
+            <li class="posts-list-item tw-border-b tw-border-line tw-py-7" data-title="{{ post.title | escape }}">
+                <time class="tw-text-xs tw-text-muted" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: '%Y.%m.%d' }}</time>
+                <h2 class="tw-mt-3 tw-mb-3 tw-text-xl tw-font-medium tw-leading-relaxed"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+                <p class="tw-m-0 tw-text-sm tw-leading-7 tw-text-muted">{{ post.excerpt | strip_html | truncate: 120 }}</p>
             </li>
             {% endfor %}
         </ul>
-
-        <!-- Pagination -->
-        {% include pagination.html %}
-
-        <!-- Comments -->
-        <!-- {% include disqus-comments.html %} -->
-
     </div>
-
-    <div class="col-md-4">
-        {% include sidebar-post-tag.html %}
-    </div>
-
+    <aside class="col-md-4">{% include sidebar-post-tag.html %}</aside>
 </div>
-<script>
-    $(document).ready(function(){
-
-        // Enable bootstrap tooltip
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-
-    });
-</script>

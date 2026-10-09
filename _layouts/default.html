@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html{% if page.menu == 'home' %} class="tw-text-[16px]"{% endif %}>
+<html lang="zh-CN" id="top" data-theme="dark" class="tw-text-[16px]">
 
 {% include head.html %}
 
-    <body>
+    <body class="site-shell">
+    <a href="#main-content" class="skip-link">跳到正文</a>
 
     {% include header.html %}
 
-        <div class="content">
+        <main id="main-content" class="content" tabindex="-1">
             {{ content }}
-        </div>
+        </main>
 
     {% include footer.html %}
 
