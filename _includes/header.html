@@ -1,14 +1,17 @@
-<header class="site-header">
-    <div class="container">
-        <a id="site-header-brand" href="/" title="{{ site.name }}">
-            <link rel="stylesheet" href="/assets/css/header.css">
-            <span class="fa fas fa-code"></span> {{ site.name }}
-        </a>
-        <nav class="site-header-nav" role="navigation">
+<header class="editorial-header tw-border-b tw-border-line">
+    <div class="site-wrap tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-x-6 tw-gap-y-4 tw-py-5">
+        <a class="wordmark tw-text-ink" href="{{ '/' | relative_url }}" aria-label="{{ site.name }} 首页">W<span class="tw-text-accent">.</span><span class="wordmark-name">YANGFAN</span></a>
+        <nav class="editorial-nav tw-order-3 tw-flex tw-w-full tw-gap-6 tw-overflow-x-auto md:tw-order-none md:tw-w-auto" aria-label="主导航">
             {% for nav in site.navs %}
-            <a href="{{ nav.href }}" class="{% if page.menu == nav.label %} selected {% endif %} site-header-nav-item hvr-underline-from-center" target="{{ nav.target | default: _self }}" title="{{ nav.title }}">
-                {{ nav.label }}
-            </a> {% endfor %}
+            {% assign nav_key = nav.label | downcase %}
+            {% assign current_menu = page.menu | downcase %}
+            <a href="{{ nav.href }}" {% if current_menu == nav_key %}aria-current="page"{% endif %}{% if nav.target %} target="{{ nav.target }}" rel="noopener noreferrer"{% endif %}>{{ nav.title }}</a>
+            {% endfor %}
         </nav>
+        <button id="theme-toggle" type="button" class="theme-toggle tw-rounded-full tw-border tw-border-line tw-bg-surface tw-px-4 tw-py-2 tw-text-sm" aria-label="切换浅色" hidden>
+            <svg class="theme-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+            <svg class="theme-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M20.8 13A9 9 0 0 1 11 3.2 9 9 0 1 0 20.8 13Z"/></svg>
+            <span data-theme-label>切换浅色</span>
+        </button>
     </div>
 </header>

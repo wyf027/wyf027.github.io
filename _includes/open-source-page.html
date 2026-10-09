@@ -1,63 +1,16 @@
 {% assign sorted_repos = (site.github.public_repositories | sort: 'stargazers_count') | reverse | where: "fork", "false" %}
-<div id="container-open-source">
-    <section class="jumbotron geopattern" data-pattern-id="{{ page.title }}">
-        <div class="container">
-            <div id="jumbotron-meta-info">
-                <h1>Open Source Projects</h1>
-                <span class="meta-info">
-                    I have <span class="repo-count badge">{{ sorted_repos.size }}</span> projects on Github
-                </span>
+{% include jumbotron.html %}
+<section class="site-wrap tw-py-12">
+    <p class="tw-mb-8 tw-text-sm tw-text-muted">{{ sorted_repos | size }} 个公开仓库 · 持续探索，保持开放</p>
+    <div class="tw-grid tw-gap-4 md:tw-grid-cols-2 lg:tw-grid-cols-3">
+        {% for repo in sorted_repos %}
+        <article class="project-card tw-flex tw-min-w-0 tw-flex-col tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-7">
+            <h2 class="tw-m-0 tw-text-xl tw-font-medium"><a href="{{ repo.html_url }}" target="_blank" rel="noopener noreferrer">{{ repo.name }} <span aria-hidden="true">↗</span></a></h2>
+            <p class="tw-mt-5 tw-flex-1 tw-text-sm tw-leading-7 tw-text-muted">{{ repo.description | default: '在 GitHub 查看项目详情。' | escape }}</p>
+            <div class="tw-mt-6 tw-flex tw-flex-wrap tw-gap-4 tw-border-t tw-border-line tw-pt-4 tw-text-xs tw-text-muted">
+                <span aria-label="{{ repo.stargazers_count }} stars">☆ {{ repo.stargazers_count }}</span><span>{{ repo.forks_count }} forks</span><time datetime="{{ repo.updated_at }}">{{ repo.updated_at | date: '%Y.%m.%d' }}</time>
             </div>
-        </div>
-    </section>
-
-    <section class="container">
-        <div class="repo-list row">
-            <!-- Check here for github metadata -->
-            <!-- https://help.github.com/articles/repository-metadata-on-github-pages/ -->
-            {% for repo in sorted_repos %}
-            <div class="col-md-4 card text-center">
-                <div class="thumbnail">
-                    <div class="card-image geopattern" data-pattern-id="{{ repo.name }}">
-                        <div class="card-image-cell">
-                            <h3 class="card-title">
-                                <a href="{{ repo.html_url }}" target="_blank">{{ repo.name }}</a>
-                            </h3>
-                        </div>
-                    </div>
-                    <div class="caption">
-                        <div class="card-description">
-                            <p class="card-text">{{ repo.description }}</p>
-                        </div>
-                        <div class="card-text">
-                            <span data-toggle="tooltip" class="meta-info" title="{{ repo.stargazers_count }} stars">
-                                <span class="octicon octicon-star"></span> {{ repo.stargazers_count }}
-                            </span>
-                            <span data-toggle="tooltip" class="meta-info" title="{{ repo.forks_count }} forks">
-                                <span class="octicon octicon-git-branch"></span> {{ repo.forks_count }}
-                            </span>
-                            <span data-toggle="tooltip" class="meta-info" title="Last updated：{{ repo.updated_at }}">
-                                <span class="octicon octicon-clock"></span>
-                                <time datetime="{{ repo.updated_at }}" title="{{ repo.updated_at }}">{{ repo.updated_at | date: '%Y-%m-%d' }}</time>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
-
-</div>
-<script>
-    $(document).ready(function(){
-
-        // Enable bootstrap tooltip
-        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
-
-        $('.geopattern').each(function(){
-            $(this).geopattern($(this).data('pattern-id'));
-        });
-
-    });
-</script>
+        </article>
+        {% endfor %}
+    </div>
+</section>

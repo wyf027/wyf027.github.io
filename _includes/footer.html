@@ -1,61 +1,16 @@
-<footer class="footor">
-
-    <!-- <div class="site-footer"> -->
-    <div class="container">
-        <div>
-            <ul class="list-inline text-center footer-links">
-                {% for link in site.social-network-links %}
-                {% assign curkey = link[0] %}
-                {% assign element = site.data.SocialNetworks[curkey] %}
-                <li>
-                    {% if curkey == 'rss' %}
-                    <a href="{{ '/feed.xml' | prepend: site.baseurl }}" title="{{ element.name }}">
-                        {% elsif curkey == 'yelp' %}
-                        <a href="https://{{ site.social-network-links[curkey] }}.yelp.com" title="{{ element.name }}">
-                            {% else %}
-                            <a href="{{element.baseURL}}{{ site.social-network-links[curkey] }}"
-                                title="{{ element.name }}">
-                                {% endif %}
-                                <span class="fa-stack fa-lg" aria-hidden="true">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa {{ element.icon }} fa-stack-1x fa-inverse"></i>
-                                </span>
-                                <span class="sr-only">{{ element.name }}</span>
-                            </a>
-                </li>
-                {% endfor %}
-            </ul>
-            <p class="copyright text-muted">
-                ©<a href="{{site.url}}" class="text_muted" target="_blank">{{ site.name }}</a>
-                &nbsp;&bull;&nbsp;
-                <!-- {{ site.time | date: '%Y' }} -->
-                2019
-                {% if site.analytics.google.tracking_id %}
-                &nbsp;&bull;&nbsp;
-                <a href="https://analytics.google.com/analytics/web/" target="_blank" class="text_muted">Google
-                    Analytics</a>
-                {% endif%}
-            </p>
-            <!-- 请不要更改这一行 方便其他人知道模板的来源 谢谢 -->
-            <!-- Please keep this line to let others know where this theme comes from. Thank you :D -->
-            <p class="theme-by text-muted">
-                Powered by <a href="https://jekyllrb.com/">Jekyll</a> &
-                <a href="https://pages.github.com/">Github Pages</a>&nbsp;&bull;&nbsp;
-                &#160;
-                Theme by <a href="https://github.com/leno23/Trice-Jekyll">Trice-jekyll</a>
-            </p>
-
-            <div class="pull-right" style="margin-top: -20px">
-                <a href="javascript:window.scrollTo(0,0)">TOP</a>
-            </div>
+<footer class="editorial-footer tw-border-t tw-border-line">
+    <div class="site-wrap tw-flex tw-flex-wrap tw-items-start tw-justify-between tw-gap-8 tw-py-12">
+        <div><a class="wordmark" href="{{ '/' | relative_url }}">W<span class="tw-text-accent">.</span></a><p class="tw-mt-4 tw-text-sm tw-text-muted">保持好奇，持续创造。</p><p class="tw-mt-6 tw-text-xs tw-text-muted">© {{ site.time | date: '%Y' }} {{ site.name }}</p></div>
+        <div class="tw-text-sm">
+            <div class="tw-flex tw-flex-wrap tw-gap-6"><a href="{{ site.github_url }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="mailto:{{ site.email }}">联系我 ↗</a><a href="{{ '/feed.xml' | relative_url }}">RSS ↗</a><a href="#top">返回顶部 ↑</a></div>
+            <p class="tw-mt-8 tw-text-xs tw-leading-6 tw-text-muted">Powered by <a href="https://jekyllrb.com/">Jekyll</a> &amp; <a href="https://pages.github.com/">GitHub Pages</a><br>Original theme by <a href="https://github.com/leno23/Trice-Jekyll">Trice-jekyll</a></p>
         </div>
     </div>
-
     <!-- Third-Party JS -->
     <script type="text/javascript" src="/bower_components/geopattern/js/geopattern.min.js"></script>
 
     <!-- My JS -->
-    <script type="text/javascript" src="/assets/js/script.js"></script>
+
 
     {% for javascript in page.javascript %}
     <script src="/assets/js/{{javascript}}"></script>
