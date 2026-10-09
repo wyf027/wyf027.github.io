@@ -103,3 +103,70 @@
     - TailwindCSS
   preview_url: https://wyf-screenshot-workflow-lite.vercel.app/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/screenshot-workflow-lite
+
+- name: 经典图册索引
+  description: 汇集庄子、菜根谭等经典作品的图册阅读入口。
+  tags:
+    - HTML
+    - 阅读
+  preview_url: https://wyf-classic-atlas.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-atlas
+
+- name: 公版科幻图册
+  description: 浏览海底两万里、时间机器等公版科幻作品的简中图册索引。
+  tags:
+    - HTML
+    - 科幻
+  preview_url: https://wyf-classic-sci-fi-atlas.vercel.app/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/classic-sci-fi-atlas
+
+- name: 我的项目集合
+  description: 集中浏览个人项目及其在线演示入口。
+  tags:
+    - Next.js
+    - 作品集
+  preview_url: https://wyf001.vercel.app/
+  source_url: https://github.com/wyf027/project-list
+
+- name: 思维导图
+  description: 在线整理思路与节点，体验思维导图编辑界面。
+  tags:
+    - Vue
+    - Vite
+    - 思维导图
+  preview_url: https://vite-vue3-kohl.vercel.app/
+
+- name: Web3 Connector
+  description: 演示 Web3 钱包连接与账户交互界面。
+  tags:
+    - Web3
+    - TypeScript
+    - React
+  preview_url: https://w-web3-connector.vercel.app/
+  source_url: https://github.com/wyf027/w-wallet-sdk
+
+- name: 给你的情书
+  description: 用网页呈现情书与恋爱故事。
+  tags:
+    - JavaScript
+    - 互动网页
+  preview_url: https://yf-love-story.vercel.app/
+  source_url: https://github.com/wyf027/love-story
+
+- name: MetaNodeSwap
+  description: 展示去中心化交易所的代币兑换与流动性管理界面。
+  tags:
+    - Next.js
+    - Web3
+    - DEX
+  preview_url: https://w-swap-frontend.vercel.app/
+  source_url: https://github.com/wyf027/w-swap-frontend
+
+- name: 低代码页面编辑器
+  description: 通过拖拽布局和配置组件，体验可视化页面搭建。
+  tags:
+    - Vue
+    - Vite
+    - 低代码
+  preview_url: https://wyf-low-code.vercel.app/#/?diy=true
+  source_url: https://github.com/wyf027/low-code
