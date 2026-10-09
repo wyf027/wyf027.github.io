@@ -170,3 +170,12 @@
     - 低代码
   preview_url: https://wyf-low-code.vercel.app/#/?diy=true
   source_url: https://github.com/wyf027/low-code
+
+- name: Devframe 元素检查扩展
+  description: 选中页面元素，查看结构，在 Elements 中继续定位。
+  tags:
+    - Chrome DevTools
+    - JavaScript
+    - TailwindCSS
+  preview_url: /projects/devframe-demo/
+  source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/devframe-demo
