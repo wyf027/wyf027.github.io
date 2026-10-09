@@ -88,6 +88,7 @@ tailwind.config = {
                     >
                         在线预览
                     </a>
+                    {% if project.source_url %}
                     <a
                         class="tw-text-slate-600 hover:tw-text-slate-900"
                         href="{{ project.source_url }}"
@@ -96,6 +97,7 @@ tailwind.config = {
                     >
                         查看源码
                     </a>
+                    {% endif %}
                 </div>
             </article>
             {% endfor %}
