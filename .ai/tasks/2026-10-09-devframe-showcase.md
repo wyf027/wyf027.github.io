@@ -1,0 +1,21 @@
+# Devframe showcase on GitHub Pages
+
+- User approved the bounded design: dark/mint page, four screenshot groups, three visual installation steps, image zoom, source link and homepage portfolio entry.
+- User authorized publication to `wyf027.github.io`.
+- Repository: `wyf027/wyf027.github.io`; publish branch `gh-pages`.
+- Task branch: `feat/devframe-showcase-20261009`; base `2f5fd99`.
+- Worktree: dedicated to this task; parent agent is the sole writer.
+- Read-only reconnaissance confirmed the current Jekyll layout, prefixed Tailwind utilities and portfolio data contract.
+- No tests or builds requested; none run.
+- Source: `wyf027/leetcode-solu/project/devframe-demo`, merged in PR #2250, version 1.2.1.
+- Runtime files and capability boundaries verified in the earlier publication task.
+- Implemented: native Jekyll showcase route, four JPEG screenshots, native dialog image zoom, three SVG installation illustrations, version 1.2.1 ZIP and one appended portfolio entry.
+- Screenshots: overview/Preview from the original standalone demo; picker/details use the original picker and selection functions on a safe local SVG demo target. No private application content.
+- ZIP: 15,559 bytes; eight files match the published extension source exactly.
+- Verification: `git diff --check`, script `node --check`, YAML parse (21 unique projects; original 20 preserved), screenshot dimensions and ZIP content comparison passed.
+- Browser verification: all four images load; zoom opens/closes and restores trigger focus; 1280px and 390px widths have no horizontal overflow; light/dark themes and full-page installation layout inspected.
+- Independent read-only review passed: Jekyll route/layout, prefixed Tailwind, local asset URLs, accessible dialog and safe download contents.
+- Local preview uses the current live page shell plus new content; no local Jekyll build or automated test suite run.
+- Temporary task-owned loopback servers: 8763 original demo, 8764 safe screenshot fixture, 8765 site preview.
+- Current checkpoint: implementation and review complete. Next action: commit and push this branch, open a PR targeting `gh-pages`, merge and verify GitHub Pages publication.
+- Pickup/handoff skills unavailable in this environment; this card is the recoverable checkpoint.

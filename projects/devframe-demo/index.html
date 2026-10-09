@@ -1,0 +1,106 @@
+---
+layout: default
+title: "Devframe · Chrome DevTools 扩展"
+menu: home
+excerpt: "选中元素，查看结构，直达 Elements。一个轻量的 Chrome DevTools 面板 Demo。"
+---
+
+<div class="site-wrap tw-pb-20">
+    <section class="tw-py-12 md:tw-py-20">
+        <a class="text-link tw-inline-flex tw-items-center tw-gap-2" href="{{ '/#projects' | relative_url }}"><span aria-hidden="true">←</span> 返回作品集</a>
+        <div class="tw-mt-10 tw-flex tw-flex-wrap tw-items-end tw-justify-between tw-gap-8">
+            <div>
+                <p class="eyebrow tw-flex tw-items-center tw-gap-3"><span class="status-dot" aria-hidden="true"></span>CHROME DEVTOOLS EXTENSION</p>
+                <h1 class="tw-mt-5 tw-mb-4 tw-text-5xl tw-font-medium tw-tracking-tight md:tw-text-7xl"><span class="tw-text-accent">*</span>Devframe</h1>
+                <p class="tw-mb-0 tw-text-base tw-text-muted md:tw-text-lg">选中元素，查看结构，直达 Elements。</p>
+            </div>
+            <div class="tw-flex tw-flex-wrap tw-gap-3">
+                <a class="button-primary" href="{{ '/assets/downloads/devframe-demo-v1.2.1.zip' | relative_url }}" download>获取扩展 <span aria-hidden="true">↓</span></a>
+                <a class="button-secondary" href="https://github.com/wyf027/leetcode-solu/tree/main/project/devframe-demo" target="_blank" rel="noopener noreferrer">查看源码 <span aria-hidden="true">↗</span></a>
+            </div>
+        </div>
+        <div class="tw-mt-7 tw-flex tw-flex-wrap tw-gap-2"><span class="project-tag">v1.2.1</span><span class="project-tag">Chrome</span><span class="project-tag">Tailwind CSS</span><span class="project-tag">开源 Demo</span></div>
+        <figure class="tw-mt-10 tw-mb-0">
+            <button class="shot-button tw-block tw-w-full tw-overflow-hidden tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-0 tw-text-left" type="button" data-preview="overview" aria-label="放大查看扩展面板全貌">
+                <span class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-border-b tw-border-line tw-px-5 tw-py-3 tw-text-xs tw-text-muted"><span>01 / THE WORKSPACE</span><span class="tw-text-accent">*Devframe <span aria-hidden="true">↗</span></span></span>
+                <img class="tw-block tw-h-auto tw-w-full" src="{{ '/assets/images/projects/devframe-demo/overview.jpg' | relative_url }}" alt="Devframe 深色面板全貌：工具导航、Functions 列表和底部命令区" width="1269" height="760" fetchpriority="high">
+            </button>
+            <figcaption class="tw-mt-4 tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-3 tw-text-sm tw-text-muted"><span>一个页签，集中查看。</span><span class="tw-text-xs">点击图片放大 <span aria-hidden="true">⌕</span></span></figcaption>
+        </figure>
+    </section>
+
+    <section class="tw-border-t tw-border-line tw-py-12 md:tw-py-16" aria-labelledby="details-heading">
+        <div class="tw-mb-8 tw-flex tw-items-end tw-justify-between tw-gap-5"><div><p class="eyebrow">SELECT · INSPECT · PREVIEW</p><h2 id="details-heading" class="tw-mt-3 tw-mb-0 tw-text-3xl tw-font-medium">从选择，到看清。</h2></div><span class="tw-hidden tw-text-3xl tw-text-accent sm:tw-block" aria-hidden="true">⌖</span></div>
+        <div class="tw-grid tw-gap-6 md:tw-grid-cols-2">
+            <figure class="tw-m-0 tw-min-w-0">
+                <button class="shot-button tw-block tw-w-full tw-overflow-hidden tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-0" type="button" data-preview="picker" aria-label="放大查看元素选择高亮">
+                    <img class="tw-block tw-h-auto tw-w-full" src="{{ '/assets/images/projects/devframe-demo/picker.jpg' | relative_url }}" alt="安全 Demo 场景中，绿色边框高亮选中的图片元素并显示 DOM 类型和尺寸" width="1269" height="760" loading="lazy">
+                </button>
+                <figcaption class="tw-mt-4 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">02</span><span class="tw-text-base">指向元素，立即高亮。</span><span class="tw-ml-auto tw-text-xl tw-text-muted" aria-hidden="true">⌖</span></figcaption>
+            </figure>
+            <figure class="tw-m-0 tw-min-w-0">
+                <button class="shot-button tw-block tw-w-full tw-overflow-hidden tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-0" type="button" data-preview="selection" aria-label="放大查看紧凑元素详情">
+                    <img class="tw-block tw-h-auto tw-w-full" src="{{ '/assets/images/projects/devframe-demo/selection.jpg' | relative_url }}" alt="选中图片后的紧凑详情：组件、选择器、尺寸、首个 HTML 标签和 Elements 定位图标" width="1269" height="760" loading="lazy">
+                </button>
+                <figcaption class="tw-mt-4 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">03</span><span class="tw-text-base">关键结构，紧凑呈现。</span><span class="tw-ml-auto tw-text-xl tw-text-muted" aria-hidden="true">⌘</span></figcaption>
+            </figure>
+        </div>
+        <figure class="tw-mt-8 tw-mb-0">
+            <button class="shot-button tw-block tw-w-full tw-overflow-hidden tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-0" type="button" data-preview="preview" aria-label="放大查看 Preview 面板">
+                <img class="tw-block tw-h-auto tw-w-full" src="{{ '/assets/images/projects/devframe-demo/preview.jpg' | relative_url }}" alt="Preview 页签展示 SVG 资源、RPC 曲线和运行状态柱图的演示界面" width="1269" height="760" loading="lazy">
+            </button>
+            <figcaption class="tw-mt-4 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">04</span><span class="tw-text-base">切到 Preview，把数据变成画面。</span><span class="tw-ml-auto tw-text-xl tw-text-muted" aria-hidden="true">▧</span></figcaption>
+        </figure>
+    </section>
+
+    <section id="install" class="tw-border-t tw-border-line tw-py-12 md:tw-py-16" aria-labelledby="install-heading">
+        <div class="tw-mb-8"><p class="eyebrow">GET STARTED</p><h2 id="install-heading" class="tw-mt-3 tw-mb-0 tw-text-3xl tw-font-medium">三步，装好。</h2></div>
+        <ol class="tw-m-0 tw-grid tw-list-none tw-gap-4 tw-p-0 md:tw-grid-cols-3">
+            <li class="tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-6">
+                <svg class="tw-block tw-h-auto tw-w-full tw-text-accent" viewBox="0 0 300 160" fill="none" role="img" aria-label="下载扩展压缩包并解压成文件夹的图示"><rect x="22" y="26" width="256" height="116" rx="12" stroke="currentColor" stroke-opacity=".25"/><path d="M22 56h256" stroke="currentColor" stroke-opacity=".25"/><circle cx="39" cy="41" r="3" fill="currentColor"/><circle cx="50" cy="41" r="3" fill="currentColor" opacity=".5"/><circle cx="61" cy="41" r="3" fill="currentColor" opacity=".25"/><path d="M63 80h38l12 13h66v43H63z" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-width="2"/><path d="M213 77v32m-10-10 10 10 10-10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M201 119h24" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><text x="83" y="120" fill="currentColor" font-size="11" font-family="monospace">devframe-demo</text></svg>
+                <div class="tw-mt-5 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">01</span><h3 class="tw-m-0 tw-text-lg tw-font-medium">下载并解压</h3></div>
+                <p class="tw-mt-3 tw-mb-0 tw-text-sm tw-text-muted">获得 devframe-demo 文件夹。</p>
+            </li>
+            <li class="tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-6">
+                <svg class="tw-block tw-h-auto tw-w-full tw-text-accent" viewBox="0 0 300 160" fill="none" role="img" aria-label="在 Chrome 扩展管理页开启开发者模式并加载文件夹的图示"><rect x="22" y="26" width="256" height="116" rx="12" stroke="currentColor" stroke-opacity=".25"/><path d="M22 56h256" stroke="currentColor" stroke-opacity=".25"/><circle cx="39" cy="41" r="3" fill="currentColor"/><rect x="57" y="34" width="203" height="14" rx="4" fill="currentColor" fill-opacity=".08"/><text x="68" y="44" fill="currentColor" font-size="9" font-family="monospace">chrome://extensions/</text><text x="43" y="83" fill="currentColor" font-size="12">开发者模式</text><rect x="222" y="71" width="34" height="18" rx="9" fill="currentColor"/><circle cx="247" cy="80" r="6" fill="var(--surface)"/><rect x="42" y="103" width="146" height="25" rx="5" fill="currentColor" fill-opacity=".12" stroke="currentColor" stroke-opacity=".5"/><text x="58" y="120" fill="currentColor" font-size="11">＋ 加载未打包的扩展程序</text></svg>
+                <div class="tw-mt-5 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">02</span><h3 class="tw-m-0 tw-text-lg tw-font-medium">加载文件夹</h3></div>
+                <p class="tw-mt-3 tw-mb-0 tw-break-all tw-text-sm tw-text-muted">chrome://extensions/ → 开发者模式</p>
+            </li>
+            <li class="tw-rounded-2xl tw-border tw-border-line tw-bg-surface tw-p-6">
+                <svg class="tw-block tw-h-auto tw-w-full tw-text-accent" viewBox="0 0 300 160" fill="none" role="img" aria-label="打开 Chrome DevTools 并切换到星号 Devframe 页签的图示"><rect x="22" y="26" width="256" height="116" rx="12" stroke="currentColor" stroke-opacity=".25"/><text x="38" y="49" fill="currentColor" fill-opacity=".6" font-size="10" font-family="monospace">Elements</text><text x="101" y="49" fill="currentColor" fill-opacity=".6" font-size="10" font-family="monospace">Console</text><rect x="167" y="31" width="99" height="27" rx="5" fill="currentColor" fill-opacity=".14"/><text x="179" y="49" fill="currentColor" font-size="11" font-family="monospace">*Devframe</text><path d="M22 64h256" stroke="currentColor" stroke-opacity=".25"/><path d="M43 88h53m-53 17h94m-94 17h73" stroke="currentColor" stroke-opacity=".3" stroke-width="4" stroke-linecap="round"/><path d="m212 87 19 20-10 1-6 11z" fill="currentColor" fill-opacity=".25" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                <div class="tw-mt-5 tw-flex tw-items-center tw-gap-3"><span class="project-number tw-text-xs tw-text-accent">03</span><h3 class="tw-m-0 tw-text-lg tw-font-medium">打开 *Devframe</h3></div>
+                <p class="tw-mt-3 tw-mb-0 tw-text-sm tw-text-muted">进入 DevTools，开始选择元素。</p>
+            </li>
+        </ol>
+        <div class="tw-mt-8 tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-gap-5"><a class="button-primary" href="{{ '/assets/downloads/devframe-demo-v1.2.1.zip' | relative_url }}" download>下载 v1.2.1 <span aria-hidden="true">↓</span></a><a class="text-link" href="https://github.com/wyf027/leetcode-solu/blob/main/project/devframe-demo/README.md" target="_blank" rel="noopener noreferrer">完整安装说明 <span aria-hidden="true">↗</span></a></div>
+    </section>
+    <p class="tw-mb-0 tw-border-t tw-border-line tw-pt-6 tw-text-xs tw-leading-6 tw-text-muted">截图来自本项目的 Demo 场景；Git、RPC 与终端为演示数据。参考 <a class="text-link" href="https://github.com/devframes/devframe" target="_blank" rel="noopener noreferrer">Devframe</a> 制作。</p>
+</div>
+
+<dialog id="screenshot-viewer" class="tw-w-[96vw] tw-max-w-7xl tw-overflow-hidden tw-rounded-2xl tw-border tw-border-line tw-bg-canvas tw-p-4 tw-text-ink" aria-label="截图大图">
+    <div class="tw-mb-3 tw-flex tw-items-center tw-justify-between tw-gap-4"><span id="screenshot-caption" class="tw-text-sm tw-text-muted"></span><button id="close-screenshot" class="tw-grid tw-h-10 tw-w-10 tw-place-items-center tw-rounded-full tw-border tw-border-line tw-bg-surface tw-text-ink" type="button" aria-label="关闭大图" title="关闭大图（Esc）" autofocus><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+    <img id="screenshot-image" class="tw-mx-auto tw-block tw-max-h-[78vh] tw-max-w-full tw-rounded-lg tw-object-contain" alt="">
+</dialog>
+<style>
+    #screenshot-viewer::backdrop { background: rgb(0 0 0 / .85); }
+    .shot-button { cursor: zoom-in; transition: border-color .2s ease; }
+    .shot-button:hover { border-color: var(--accent); }
+</style>
+<script>
+    (() => {
+        const viewer = document.querySelector('#screenshot-viewer');
+        const image = document.querySelector('#screenshot-image');
+        const caption = document.querySelector('#screenshot-caption');
+        document.querySelectorAll('[data-preview]').forEach(button => {
+            button.addEventListener('click', () => {
+                const source = button.querySelector('img');
+                image.src = source.currentSrc || source.src;
+                image.alt = source.alt;
+                caption.textContent = button.closest('figure').querySelector('figcaption').textContent.replace('点击图片放大', '').trim();
+                viewer.showModal();
+            });
+        });
+        document.querySelector('#close-screenshot').addEventListener('click', () => viewer.close());
+        viewer.addEventListener('click', event => { if (event.target === viewer) viewer.close(); });
+    })();
+</script>
