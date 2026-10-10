@@ -1,39 +1,46 @@
 #!/usr/bin/env bash
+# Parse the whole installer before a child command can consume piped script input.
+{
 set -Eeuo pipefail
 
-# Installs one reviewed le-e revision without changing system packages or credentials.
+# Installs missing tools only when the user runs this script; never collects credentials.
 readonly REPOSITORY='https://github.com/wyf027/leetcode-solu.git'
 readonly REVISION='6d5366fe5a39ef684146238d023746c68f837c41'
 readonly RELEASE_NAME="${REVISION:0:12}"
+release_stage=''
+node_stage=''
+temporary_launcher=''
+cleanup() {
+  [[ -z "$release_stage" ]] || rm -rf -- "$release_stage"
+  [[ -z "$node_stage" ]] || rm -rf -- "$node_stage"
+  [[ -z "$temporary_launcher" ]] || rm -f -- "$temporary_launcher"
+}
+trap cleanup EXIT
 
 fail() {
-  printf 'le-e installer: %s\n' "$*" >&2
+  printf '\n========== [ERROR] le-e ==========\n%s\nResolve the message above and rerun the same install command.\n' "$*" >&2
   exit 1
 }
 
 note() {
-  printf '==> %s\n' "$*"
+  printf '\n========== %s ==========\n' "$*"
 }
 
-require_command() {
-  command -v "$1" >/dev/null 2>&1 || fail "Missing $1. $2"
+phase='[1/6] Detect system'
+trap 'code=$?; printf "\n[ERROR] %s failed (exit %s). See command output above; rerun after resolving it.\n" "$phase" "$code" >&2; exit "$code"' ERR
+has() { command -v "$1" >/dev/null 2>&1; }
+action() {
+  printf '\n========== [ACTION REQUIRED] ==========\n%s\n' "$*" >&2
+  exit 1
 }
-
-case "$(uname -s)" in
+system=$(uname -s)
+case "$system" in
   Darwin | Linux) ;;
   *) fail 'This installer supports macOS and Linux. On Windows, use install.ps1 to run it in WSL.' ;;
 esac
 
 [[ -n "${HOME:-}" ]] || fail 'HOME is not set.'
-require_command git 'Install Git, then run this command again.'
-require_command node 'Install Node.js 22.12+ or 24+, then run this command again.'
-require_command corepack 'Install Corepack (for example: npm install -g corepack), then run this command again.'
-require_command cargo 'Install Rust/Cargo, then run this command again.'
-require_command micro 'Install Micro, then run this command again (macOS: brew install micro).'
-require_command leetcode 'Install clearloop/leetcode-cli first: cargo install leetcode-cli --version 0.5.4 --locked'
-
-node -e "const [major, minor] = process.versions.node.split('.').map(Number); process.exit((major === 22 && minor >= 12) || major >= 24 ? 0 : 1)" \
-  || fail "Node $(node --version) is unsupported; need 22.12+ or 24+."
+[[ $(id -u) -ne 0 ]] || action 'Run as your normal user, not root. In WSL, first create a Linux user and set it as the default. System package installation will request sudo separately.'
 
 readonly LEETCODE_CONFIG="$HOME/.leetcode/leetcode.toml"
 
@@ -44,38 +51,163 @@ readonly PROJECT_HOME="$RELEASE_HOME/project/le-e"
 readonly BIN_HOME="$HOME/.local/bin"
 readonly VERSIONED_LAUNCHER="$BIN_HOME/le-e-$RELEASE_NAME"
 readonly DEFAULT_LAUNCHER="$BIN_HOME/le-e"
+readonly TOOLS_HOME="$DATA_HOME/tools"
+export PATH="$TOOLS_HOME/node/bin:$TOOLS_HOME/npm/bin:$HOME/.cargo/bin:$BIN_HOME:$PATH"
 
+already_installed=false
 if [[ -e "$VERSIONED_LAUNCHER" || -L "$VERSIONED_LAUNCHER" ]]; then
-  fail "Refusing to overwrite existing launcher: $VERSIONED_LAUNCHER"
+  if [[ -x "$VERSIONED_LAUNCHER" ]] && grep -q '^# managed-by: le-e-installer$' "$VERSIONED_LAUNCHER"; then
+    already_installed=true
+  else
+    fail "Refusing to overwrite an unmanaged launcher: $VERSIONED_LAUNCHER"
+  fi
 fi
 
-if [[ -e "$RELEASE_HOME" ]]; then
+sudo_ready() {
+  has sudo || action 'sudo is missing. Ask an administrator to install it and grant your user package-install permissions, then rerun.'
+  note '[PERMISSION] System packages need administrator permission. sudo may ask for your password; it will not be recorded.'
+  if sudo -n true 2>/dev/null; then return; fi
+  if ! (exec </dev/tty) 2>/dev/null; then
+    action 'Open an interactive terminal and rerun this command to authorize sudo.'
+  fi
+  sudo -v </dev/tty || action 'Administrator authorization was canceled or denied. Rerun when you can authorize sudo.'
+}
+
+note "$phase: $system"
+phase='[2/6] Install missing system dependencies'
+note "$phase"
+if [[ "$system" == Darwin ]]; then
+  if ! xcode-select -p >/dev/null 2>&1; then
+    xcode-select --install || true
+    action 'macOS Command Line Tools are required. Complete the system installation dialog, then rerun this command.'
+  fi
+  for brew_path in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+    if [[ -x "$brew_path" ]]; then export PATH="$(dirname "$brew_path"):$PATH"; break; fi
+  done
+  if ! has brew; then
+    sudo_ready
+    note '[INSTALL] Homebrew from its official installer (system package manager)'
+    brew_installer=$(mktemp -t le-e-brew.XXXXXX)
+    curl --proto '=https' --tlsv1.2 -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$brew_installer"
+    NONINTERACTIVE=1 /bin/bash "$brew_installer"
+    rm -f "$brew_installer"
+    export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+  fi
+  missing=()
+  for formula in git micro python pkg-config openssl@3; do
+    if ! brew list --versions "$formula" >/dev/null 2>&1; then missing+=("$formula"); fi
+  done
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    note "[INSTALL] Homebrew packages: ${missing[*]}"
+    brew install "${missing[@]}"
+  else note '[OK] Homebrew dependencies already installed'; fi
+  export PKG_CONFIG_PATH="$(brew --prefix openssl@3)/lib/pkgconfig:${PKG_CONFIG_PATH:-}"
+else
+  [[ -r /etc/os-release ]] || action 'Cannot identify Linux distribution. Automatic system packages currently support Ubuntu/Debian only.'
+  . /etc/os-release
+  case "${ID:-}" in ubuntu|debian) ;; *) action 'Automatic system package installation currently supports Ubuntu/Debian only. Use an Ubuntu WSL distribution or install dependencies manually.' ;; esac
+  has apt-get && has dpkg-query || fail 'Expected apt-get and dpkg-query for Ubuntu/Debian.'
+  missing=()
+  for package in curl ca-certificates git build-essential pkg-config libssl-dev python3 micro xz-utils; do
+    if [[ "$(dpkg-query -W -f='${Status}' "$package" 2>/dev/null || true)" != 'install ok installed' ]]; then missing+=("$package"); fi
+  done
+  if [[ ${#missing[@]} -gt 0 ]]; then
+    sudo_ready
+    note "[INSTALL] apt packages: ${missing[*]}"
+    sudo -n apt-get update
+    sudo -n apt-get install -y "${missing[@]}"
+  else note '[OK] Linux system dependencies already installed'; fi
+fi
+
+phase='[3/6] Prepare Node.js, Corepack, Rust and LeetCode CLI'
+note "$phase"
+mkdir -p "$TOOLS_HOME"
+if has node && node -e "const [a,b]=process.versions.node.split('.').map(Number); process.exit((a===22&&b>=12)||a>=24?0:1)"; then
+  note "[OK] Node.js $(node --version)"
+else
+  case "$(uname -m)" in arm64|aarch64) node_arch=arm64 ;; x86_64) node_arch=x64 ;; *) action 'Automatic Node.js download supports x64/arm64 only.' ;; esac
+  case "$system" in Darwin) node_os=darwin ;; *) node_os=linux ;; esac
+  [[ ! -e "$TOOLS_HOME/node" && ! -L "$TOOLS_HOME/node" ]] || action "Managed Node directory already exists but is unusable: $TOOLS_HOME/node. Inspect it before retrying; it was not overwritten."
+  node_stage=$(mktemp -d "$TOOLS_HOME/node-download.XXXXXX")
+  note '[INSTALL] Node.js 24 into the le-e user directory; existing system Node is unchanged'
+  curl --proto '=https' --tlsv1.2 -fsSL https://nodejs.org/dist/latest-v24.x/SHASUMS256.txt -o "$node_stage/SHASUMS256.txt"
+  node_file=$(awk -v suffix="-$node_os-$node_arch.tar.gz" '$2 ~ /^node-v24\.[0-9]+\.[0-9]+-/ && substr($2,length($2)-length(suffix)+1)==suffix {print $2}' "$node_stage/SHASUMS256.txt")
+  [[ -n "$node_file" && "$node_file" != *$'\n'* && "$node_file" != */* ]] || fail 'Node release manifest is missing or ambiguous.'
+  curl --proto '=https' --tlsv1.2 -fsSL "https://nodejs.org/dist/latest-v24.x/$node_file" -o "$node_stage/$node_file"
+  expected=$(awk -v file="$node_file" '$2==file {print $1}' "$node_stage/SHASUMS256.txt")
+  if has sha256sum; then actual=$(sha256sum "$node_stage/$node_file" | awk '{print $1}')
+  else actual=$(shasum -a 256 "$node_stage/$node_file" | awk '{print $1}'); fi
+  [[ "$expected" == "$actual" ]] || fail 'Node.js checksum mismatch; archive will not be extracted.'
+  mkdir "$node_stage/runtime"
+  tar -xzf "$node_stage/$node_file" -C "$node_stage/runtime" --strip-components=1
+  mv "$node_stage/runtime" "$TOOLS_HOME/node"
+  hash -r
+fi
+if ! has corepack; then
+  note '[INSTALL] Corepack into the le-e user directory (no sudo npm)'
+  has npm || action 'Your Node.js installation has no npm. Install the official Node.js distribution with npm, then rerun; existing Node was not replaced.'
+  npm install --global --prefix "$TOOLS_HOME/npm" corepack
+fi
+if ! has cargo || ! cargo --version >/dev/null 2>&1; then
+  note '[INSTALL] Rust stable using the official rustup installer'
+  rust_installer=$(mktemp -t le-e-rust.XXXXXX)
+  curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs -o "$rust_installer"
+  sh "$rust_installer" -y --profile minimal --default-toolchain stable --no-modify-path
+  rm -f "$rust_installer"
+fi
+if ! has leetcode; then
+  note '[INSTALL] LeetCode CLI 0.5.4; compiling Rust dependencies may take several minutes'
+  cargo install leetcode-cli --version 0.5.4 --locked
+fi
+for required in git node corepack cargo micro leetcode; do
+  has "$required" || fail "Dependency $required is still unavailable after installation."
+  printf '[OK] %s\n' "$required"
+done
+
+phase='[4/6] Download pinned le-e source'
+note "$phase"
+if [[ -e "$RELEASE_HOME" || -L "$RELEASE_HOME" ]]; then
   [[ -d "$RELEASE_HOME/.git" ]] || fail "Refusing to use non-Git directory: $RELEASE_HOME"
   [[ "$(git -C "$RELEASE_HOME" remote get-url origin 2>/dev/null || true)" == "$REPOSITORY" ]] \
     || fail "Refusing to reuse a release with an unexpected source: $RELEASE_HOME"
   [[ "$(git -C "$RELEASE_HOME" rev-parse HEAD 2>/dev/null || true)" == "$REVISION" ]] \
     || fail "Refusing to overwrite a different release at $RELEASE_HOME"
-  [[ -z "$(git -C "$RELEASE_HOME" status --porcelain 2>/dev/null)" ]] \
+  release_status=$(git -C "$RELEASE_HOME" status --porcelain) || fail 'Cannot inspect the existing release.'
+  [[ -z "$release_status" ]] \
     || fail "Refusing to use a modified release: $RELEASE_HOME"
   [[ -f "$PROJECT_HOME/package.json" ]] || fail "Release is incomplete: $PROJECT_HOME/package.json is missing."
   note "Reusing pinned release $RELEASE_NAME."
 else
+  [[ "$already_installed" == false ]] || fail "The launcher exists but its release is missing: $RELEASE_HOME. Inspect this incomplete installation before retrying."
   note "Fetching le-e $RELEASE_NAME (sparse checkout)."
   mkdir -p "$RELEASES_HOME"
-  git init --quiet "$RELEASE_HOME"
-  git -C "$RELEASE_HOME" remote add origin "$REPOSITORY"
-  git -C "$RELEASE_HOME" config remote.origin.promisor true
-  git -C "$RELEASE_HOME" config remote.origin.partialclonefilter blob:none
-  git -C "$RELEASE_HOME" fetch --depth=1 --filter=blob:none origin "$REVISION"
-  git -C "$RELEASE_HOME" sparse-checkout init --no-cone
-  git -C "$RELEASE_HOME" sparse-checkout set project/le-e
-  git -C "$RELEASE_HOME" checkout --quiet --detach FETCH_HEAD
+  release_stage=$(mktemp -d "$RELEASES_HOME/.download-$RELEASE_NAME.XXXXXX")
+  git init --quiet "$release_stage"
+  git -C "$release_stage" remote add origin "$REPOSITORY"
+  git -C "$release_stage" config remote.origin.promisor true
+  git -C "$release_stage" config remote.origin.partialclonefilter blob:none
+  git -C "$release_stage" fetch --depth=1 --filter=blob:none origin "$REVISION"
+  git -C "$release_stage" sparse-checkout init --no-cone
+  git -C "$release_stage" sparse-checkout set project/le-e
+  git -C "$release_stage" checkout --quiet --detach FETCH_HEAD
+  [[ -f "$release_stage/project/le-e/package.json" ]] || fail 'Downloaded release is incomplete.'
+  mv "$release_stage" "$RELEASE_HOME"
+  release_stage=''
 fi
 
-note 'Installing JavaScript dependencies and building the terminal application.'
+if [[ "$already_installed" == true ]]; then
+  [[ -f "$PROJECT_HOME/dist-terminal/main.js" && -x "$PROJECT_HOME/work/clearloop-leetcode-cli-v0.5.4/target/release/le-e-account" ]] \
+    || fail 'The existing managed installation is incomplete. Its launcher was not overwritten; inspect its app/account-helper build before retrying.'
+  note '[OK] Existing pinned installation verified; dependencies are ready'
+  printf 'Start: %q\n' "$VERSIONED_LAUNCHER"
+  exit 0
+fi
+
+phase='[5/6] Build le-e and account helper (this can take several minutes)'
+note "$phase"
 (
   cd "$PROJECT_HOME"
-  corepack pnpm install --frozen-lockfile
+  COREPACK_ENABLE_DOWNLOAD_PROMPT=0 CI=1 corepack pnpm install --frozen-lockfile
   corepack pnpm build
 )
 
@@ -86,6 +218,8 @@ note 'Building the local LeetCode account helper.'
 )
 
 editor_setup_message=''
+phase='[6/6] Configure editor and create launcher'
+note "$phase"
 if [[ -f "$LEETCODE_CONFIG" ]] && command -v leetcode >/dev/null 2>&1; then
   note 'Configuring the le-e editor bridge (a reversible backup is created by le-e).'
   (
@@ -99,18 +233,19 @@ fi
 mkdir -p "$BIN_HOME"
 umask 077
 temporary_launcher="$BIN_HOME/.le-e-$RELEASE_NAME.$$.tmp"
-trap 'rm -f "$temporary_launcher"' EXIT
 printf -v quoted_project '%q' "$PROJECT_HOME"
+printf -v quoted_tools '%q' "$TOOLS_HOME"
 cat >"$temporary_launcher" <<EOF
 #!/usr/bin/env bash
 # managed-by: le-e-installer
 set -euo pipefail
+export PATH=$quoted_tools/node/bin:$quoted_tools/npm/bin:"\$HOME/.cargo/bin:\$HOME/.local/bin:\$PATH"
 cd $quoted_project
 exec corepack pnpm start "\$@"
 EOF
 chmod 700 "$temporary_launcher"
 mv "$temporary_launcher" "$VERSIONED_LAUNCHER"
-trap - EXIT
+temporary_launcher=''
 
 if [[ ! -e "$DEFAULT_LAUNCHER" && ! -L "$DEFAULT_LAUNCHER" ]]; then
   ln -s "$(basename "$VERSIONED_LAUNCHER")" "$DEFAULT_LAUNCHER"
@@ -119,8 +254,9 @@ else
   launcher_message="Existing $DEFAULT_LAUNCHER was left unchanged. Run: $VERSIONED_LAUNCHER"
 fi
 
-note 'Installation complete.'
+note '[OK] Installation complete'
 printf '%s\n' "$launcher_message"
 [[ -z "$editor_setup_message" ]] || printf '%s\n' "$editor_setup_message"
 printf 'If ~/.local/bin is not on PATH, run: %s\n' "$VERSIONED_LAUNCHER"
 printf 'To restore the previous CLI editor later: cd %s && corepack pnpm setup:editor --restore\n' "$PROJECT_HOME"
+}
