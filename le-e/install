@@ -1,0 +1,126 @@
+#!/usr/bin/env bash
+set -Eeuo pipefail
+
+# Installs one reviewed le-e revision without changing system packages or credentials.
+readonly REPOSITORY='https://github.com/wyf027/leetcode-solu.git'
+readonly REVISION='6d5366fe5a39ef684146238d023746c68f837c41'
+readonly RELEASE_NAME="${REVISION:0:12}"
+
+fail() {
+  printf 'le-e installer: %s\n' "$*" >&2
+  exit 1
+}
+
+note() {
+  printf '==> %s\n' "$*"
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || fail "Missing $1. $2"
+}
+
+case "$(uname -s)" in
+  Darwin | Linux) ;;
+  *) fail 'This installer supports macOS and Linux. On Windows, use install.ps1 to run it in WSL.' ;;
+esac
+
+[[ -n "${HOME:-}" ]] || fail 'HOME is not set.'
+require_command git 'Install Git, then run this command again.'
+require_command node 'Install Node.js 22.12+ or 24+, then run this command again.'
+require_command corepack 'Install Corepack (for example: npm install -g corepack), then run this command again.'
+require_command cargo 'Install Rust/Cargo, then run this command again.'
+require_command micro 'Install Micro, then run this command again (macOS: brew install micro).'
+require_command leetcode 'Install clearloop/leetcode-cli first: cargo install leetcode-cli --version 0.5.4 --locked'
+
+node -e "const [major, minor] = process.versions.node.split('.').map(Number); process.exit((major === 22 && minor >= 12) || major >= 24 ? 0 : 1)" \
+  || fail "Node $(node --version) is unsupported; need 22.12+ or 24+."
+
+readonly LEETCODE_CONFIG="$HOME/.leetcode/leetcode.toml"
+
+readonly DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/le-e"
+readonly RELEASES_HOME="$DATA_HOME/releases"
+readonly RELEASE_HOME="$RELEASES_HOME/$RELEASE_NAME"
+readonly PROJECT_HOME="$RELEASE_HOME/project/le-e"
+readonly BIN_HOME="$HOME/.local/bin"
+readonly VERSIONED_LAUNCHER="$BIN_HOME/le-e-$RELEASE_NAME"
+readonly DEFAULT_LAUNCHER="$BIN_HOME/le-e"
+
+if [[ -e "$VERSIONED_LAUNCHER" || -L "$VERSIONED_LAUNCHER" ]]; then
+  fail "Refusing to overwrite existing launcher: $VERSIONED_LAUNCHER"
+fi
+
+if [[ -e "$RELEASE_HOME" ]]; then
+  [[ -d "$RELEASE_HOME/.git" ]] || fail "Refusing to use non-Git directory: $RELEASE_HOME"
+  [[ "$(git -C "$RELEASE_HOME" remote get-url origin 2>/dev/null || true)" == "$REPOSITORY" ]] \
+    || fail "Refusing to reuse a release with an unexpected source: $RELEASE_HOME"
+  [[ "$(git -C "$RELEASE_HOME" rev-parse HEAD 2>/dev/null || true)" == "$REVISION" ]] \
+    || fail "Refusing to overwrite a different release at $RELEASE_HOME"
+  [[ -z "$(git -C "$RELEASE_HOME" status --porcelain 2>/dev/null)" ]] \
+    || fail "Refusing to use a modified release: $RELEASE_HOME"
+  [[ -f "$PROJECT_HOME/package.json" ]] || fail "Release is incomplete: $PROJECT_HOME/package.json is missing."
+  note "Reusing pinned release $RELEASE_NAME."
+else
+  note "Fetching le-e $RELEASE_NAME (sparse checkout)."
+  mkdir -p "$RELEASES_HOME"
+  git init --quiet "$RELEASE_HOME"
+  git -C "$RELEASE_HOME" remote add origin "$REPOSITORY"
+  git -C "$RELEASE_HOME" config remote.origin.promisor true
+  git -C "$RELEASE_HOME" config remote.origin.partialclonefilter blob:none
+  git -C "$RELEASE_HOME" fetch --depth=1 --filter=blob:none origin "$REVISION"
+  git -C "$RELEASE_HOME" sparse-checkout init --no-cone
+  git -C "$RELEASE_HOME" sparse-checkout set project/le-e
+  git -C "$RELEASE_HOME" checkout --quiet --detach FETCH_HEAD
+fi
+
+note 'Installing JavaScript dependencies and building the terminal application.'
+(
+  cd "$PROJECT_HOME"
+  corepack pnpm install --frozen-lockfile
+  corepack pnpm build
+)
+
+note 'Building the local LeetCode account helper.'
+(
+  cd "$PROJECT_HOME"
+  corepack pnpm setup:account
+)
+
+editor_setup_message=''
+if [[ -f "$LEETCODE_CONFIG" ]] && command -v leetcode >/dev/null 2>&1; then
+  note 'Configuring the le-e editor bridge (a reversible backup is created by le-e).'
+  (
+    cd "$PROJECT_HOME"
+    corepack pnpm setup:editor --apply
+  )
+else
+  editor_setup_message="Editor bridge was not configured because clearloop/leetcode-cli is not initialized. After initializing it, run: cd $PROJECT_HOME && corepack pnpm setup:editor --apply"
+fi
+
+mkdir -p "$BIN_HOME"
+umask 077
+temporary_launcher="$BIN_HOME/.le-e-$RELEASE_NAME.$$.tmp"
+trap 'rm -f "$temporary_launcher"' EXIT
+printf -v quoted_project '%q' "$PROJECT_HOME"
+cat >"$temporary_launcher" <<EOF
+#!/usr/bin/env bash
+# managed-by: le-e-installer
+set -euo pipefail
+cd $quoted_project
+exec corepack pnpm start "\$@"
+EOF
+chmod 700 "$temporary_launcher"
+mv "$temporary_launcher" "$VERSIONED_LAUNCHER"
+trap - EXIT
+
+if [[ ! -e "$DEFAULT_LAUNCHER" && ! -L "$DEFAULT_LAUNCHER" ]]; then
+  ln -s "$(basename "$VERSIONED_LAUNCHER")" "$DEFAULT_LAUNCHER"
+  launcher_message="Run: le-e"
+else
+  launcher_message="Existing $DEFAULT_LAUNCHER was left unchanged. Run: $VERSIONED_LAUNCHER"
+fi
+
+note 'Installation complete.'
+printf '%s\n' "$launcher_message"
+[[ -z "$editor_setup_message" ]] || printf '%s\n' "$editor_setup_message"
+printf 'If ~/.local/bin is not on PATH, run: %s\n' "$VERSIONED_LAUNCHER"
+printf 'To restore the previous CLI editor later: cd %s && corepack pnpm setup:editor --restore\n' "$PROJECT_HOME"
