@@ -188,3 +188,11 @@
     - TailwindCSS
   preview_url: /projects/devframe-demo/
   source_url: https://github.com/wyf027/leetcode-solu/tree/main/project/devframe-demo
+
+- name: Codeforces · AtCoder 中文题库
+  description: 收录 20,470 道中文算法题，支持来源、算法标签、关键词筛选及比赛目录浏览。
+  tags:
+    - 算法
+    - Python
+    - HTML
+  preview_url: https://wyf-cp-zh.vercel.app/
